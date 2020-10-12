@@ -1,0 +1,91 @@
+:root {
+    --primarytext: #e67025;
+    --secondarytext: rgb(94, 50, 0);
+    --primarybackground: #4b4b4b;
+    --secbackground: #993b00;
+}
+
+* {
+    /* outline: 1px dotted red; */
+    margin: 0px;
+    padding: 0px;
+    color: var(--primarytext);
+    font-family: sans-serif;
+}
+
+body {
+    background-color: var(--secbackground);
+}
+
+div {
+    display: flex;
+    justify-content: center;
+    outline: solid 5px var(--primarybackground);
+    margin: 20px;
+    padding: 10px;
+    background-color: var(--primarybackground);
+}
+
+#wrapper {
+    flex-direction: column;
+    align-items: center;
+    width: 1000px;
+    margin: auto;
+}
+
+#main {
+    justify-content: space-between;
+}
+
+#activities {
+    height: 50%;
+    flex-direction: column;
+    background-color: var(--secbackground);
+}
+
+#activities>* {
+    padding: 10px;
+}
+
+#activities div {
+    padding: 20px;
+    flex-direction: column;
+    background-color: var(--secbackground);
+}
+
+button {
+    background-color: var(--primarybackground);
+}
+
+#notes {
+    width: 450px;
+}
+
+ul {
+    padding: 0px 20px;
+}
+
+input {
+    margin: 5px;
+}
+
+table
+{
+    border-collapse: collapse;
+}
+
+td {
+    padding: 10px;
+}
+
+table tr:nth-child(even) {
+    background-color: var(--secondarytext);
+}
+
+th {
+    padding: 10px;
+}
+
+thead tr {
+    border-bottom: solid 2px #4b4b4b;
+}

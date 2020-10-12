@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Books & Authors</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'users/css/foundation.css' %}" />
+    </head>
+    <body>
+        <div id="page">
+            <h1>Great Job Logging In!</h1>
+            <h2>You've made it, {{user.first_name}}!</h2>
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Saepe deleniti eius quisquam illum cupiditate minus, voluptatem libero nemo id perspiciatis consequatur nostrum dolor incidunt quibusdam aliquam voluptates ipsa animi rem.</p>
+            <a href="logout">Logout</a>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{% static 'js/script.js' %}"></script>
+    </body>
+</html>

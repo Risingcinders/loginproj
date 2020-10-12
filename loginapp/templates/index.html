@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Books & Authors</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'users/css/foundation.css' %}" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="activities">
+                <div>
+                    <h2>Register</h2>
+                    <form action="register" method="POST">
+                        {% csrf_token %}
+                        <label>
+                            First Name:
+                            <input type="text" name="first_name" />
+                        </label>
+                        <br />
+                        <label>
+                            Last Name:
+                            <input type="text" name="last_name" />
+                        </label>
+                        <label>
+                            Email:
+                            <input type="text" name="email" />
+                        </label>
+                        <label>
+                            Birthday:
+                            <input
+                                type="date"
+                                name="birthday"
+                                value="2020-07-04"
+                            />
+                        </label>
+                        <br />
+                        <label>
+                            Password:
+                            <input type="text" name="password" />
+                        </label>
+                        <br />
+                        <button type="submit">Add</button>
+                    </form>
+                </div>
+                <div>
+                    <h2>Login</h2>
+                    <form action="login" method="POST">
+                        {% csrf_token %}
+                        <label>
+                            Email:
+                            <input type="text" name="email" />
+                        </label>
+                        <br />
+                        <label>
+                            Password:
+                            <input type="text" name="password" />
+                        </label>
+                        <br />
+                        <button type="submit">Add</button>
+                    </form>
+                </div>
+            </div>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li
+                    {%
+                    if
+                    message.tags
+                    %}
+                    class="{{ message.tags }}"
+                    {%
+                    endif
+                    %}
+                >
+                    {{ message }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{% static 'js/script.js' %}"></script>
+    </body>
+</html>
