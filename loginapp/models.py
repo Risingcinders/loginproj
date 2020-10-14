@@ -4,7 +4,7 @@ import re
 
 
 class UserManager(models.Manager):
-    def basic_validator(self, postData):
+    def registration_validator(self, postData):
         errors = {}
         if len(postData['first_name']) < 2:
             errors["first_name"] = "First Name must be at least 2 characters"
@@ -24,6 +24,8 @@ class UserManager(models.Manager):
             errors['date'] = "Birthday must be in the past"
         if (len(postData['password']) < 8):
             errors['password'] = "Password must be at least 8 characters"
+        if postData["password2"] != postData["password"]:
+            errors["passwordmatch"] = "Your passwords do not match!"
         return errors
     
     def login_validator(self, postData):

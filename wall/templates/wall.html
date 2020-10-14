@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>The Wall Dilemma</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'users/css/foundation.css' %}" />
+    </head>
+    <body>
+        <div id="page">
+            <h1>Great Job Logging In!</h1>
+            <h2>You've made it, {{logged_in_user.first_name}}!</h2>
+            <p>
+                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Saepe
+                deleniti eius quisquam illum cupiditate minus, voluptatem libero
+                nemo id perspiciatis consequatur nostrum dolor incidunt
+                quibusdam aliquam voluptates ipsa animi rem.
+            </p>
+            <ul>
+                <li>Users can post messages</li>
+                <li>Users can delete their own messages</li>
+                <li>Users can delete their own comments</li>
+                <li>Users can delete comments on their own messages</li>
+            </ul>
+            <a href="/logout">Logout</a>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li
+                    {%
+                    if
+                    message.tags
+                    %}
+                    class="{{ message.tags }}"
+                    {%
+                    endif
+                    %}
+                >
+                    {{ message }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <form id='newmessage' action="newmessage" method="POST">
+            {% csrf_token %}
+            <label>
+                <input type="textarea" name="newmessagetext" />
+            </label>
+            <button type="submit">Post a Message</button>
+        </form>
+        <hr>
+        <div id="wall">
+            {% for message in wallmessages %}
+            <div class="wallmessage">
+                <h5>{{message.user_id.first_name}} {{message.user_id.last_name}}</h5>
+                <h4>{{message.created_at}}</h4>
+                <p>{{message.message}}</p>
+                {% if logged_in_user.id == message.user_id.id %}
+                    <a href="deletemessage/{{message.id}}">Delete Message</a>
+                {% endif %}
+                {% for comment in comments %} 
+                    {% if comment.message_id.id == message.id %} 
+                        {% for user in users %}
+                        {% if user.id == comment.user_id.id %}
+                        <div class="wallcomment">
+                            <h4>{{user.first_name}}</h4>    
+                        {% endif %}
+                        {% endfor %}
+                        <h4>{{comment.updated_at}}</h4>
+                        <p>{{comment.comment}}</p>
+                        {% if logged_in_user.id == comment.user_id.id or logged_in_user.id == message.user_id.id %}
+                            <a href="deletecomment/{{comment.id}}">Delete Comment</a>
+                        {% endif %}
+                        </div>
+                    {% endif %} 
+                {% endfor %}
+                <form class = 'newcomment' action="/wall/newcomment/{{message.id}}" method="POST">
+                    {% csrf_token %}
+                    <label>
+                        <input type="textarea" name="newcomment" />
+                    </label>
+                    <button type="submit">Post a Comment</button>
+                </form>
+            </div>
+            <hr>
+            {% endfor %}
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{% static 'js/script.js' %}"></script>
+    </body>
+</html>

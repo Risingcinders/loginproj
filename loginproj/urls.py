@@ -17,5 +17,6 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('', include('loginapp.urls'))
+    path('', include('loginapp.urls')),
+    path('wall/', include('wall.urls'))
 ]

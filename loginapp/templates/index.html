@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Books & Authors</title>
+        <title>The Wall Dilemma</title>
         {% load static %}
         <link rel="stylesheet" href="{% static 'users/css/foundation.css' %}" />
     </head>
@@ -26,6 +26,16 @@
                         <label>
                             Email:
                             <input type="text" name="email" />
+                            <span class="error">
+                                {% for message in messages %}
+                                    {% if message.tags == 'email error' %}
+                                        {{message}}
+                                    {% endif %}
+                                    {% if message.tags == 'duplicate error' %}
+                                        {{message}}
+                                    {% endif %}
+                                {% endfor %}
+                            </span>
                         </label>
                         <label>
                             Birthday:
@@ -34,35 +44,25 @@
                                 name="birthday"
                                 value="2020-07-04"
                             />
+                            {% for message in messages %}
+                                {% if message.tags == 'date error' %}
+                                    {{message}}
+                                {% endif %}
+                            {% endfor %}
                         </label>
                         <br />
                         <label>
                             Password:
-                            <input type="text" name="password" />
+                            <input type="password" name="password" />
+                        </label>
+                        <label>
+                            Retype Password:
+                            <input type="password" name="password2" />
                         </label>
                         <br />
                         <button type="submit">Add</button>
                     </form>
-                </div>
-                <div>
-                    <h2>Login</h2>
-                    <form action="login" method="POST">
-                        {% csrf_token %}
-                        <label>
-                            Email:
-                            <input type="text" name="email" />
-                        </label>
-                        <br />
-                        <label>
-                            Password:
-                            <input type="text" name="password" />
-                        </label>
-                        <br />
-                        <button type="submit">Add</button>
-                    </form>
-                </div>
-            </div>
-            {% if messages %}
+                    {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
                 <li
@@ -80,8 +80,57 @@
                 {% endfor %}
             </ul>
             {% endif %}
+                </div>
+                <div>
+                    <h2>Login</h2>
+                    <form action="login" method="POST">
+                        {% csrf_token %}
+                        <label>
+                            Email:
+                            <input type="text" name="email" />
+                            <span class="error">
+                                {% for message in messages %}
+                                    {% if message.tags == 'email error' %}
+                                        {{message}}
+                                    {% endif %}
+                                {% endfor %}
+                            </span>
+                        </label>
+                        <br />
+                        <label>
+                            Password:
+                            <input type="password" name="password" />
+                            {% for message in messages %}
+                                    {% if message.tags == 'login error' %}
+                                        {{message}}
+                                    {% endif %}
+                                {% endfor %}
+                        </label>
+                        <br />
+                        <button type="submit">Login</button>
+                    </form>
+                    {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li
+                    {%
+                    if
+                    message.tags
+                    %}
+                    class="{{ message.tags }}"
+                    {%
+                    endif
+                    %}
+                >
+                    {{ message }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+                </div>
+                
+            </div>
         </div>
-
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="{% static 'js/script.js' %}"></script>
     </body>

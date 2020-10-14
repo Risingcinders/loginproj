@@ -52,10 +52,10 @@ div {
     flex-direction: column;
     background-color: var(--secbackground);
 }
-
+/* 
 button {
     background-color: var(--primarybackground);
-}
+} */
 
 #notes {
     width: 450px;
