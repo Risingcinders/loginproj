@@ -5,25 +5,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>The Wall Dilemma</title>
         {% load static %}
-        <link rel="stylesheet" href="{% static 'users/css/foundation.css' %}" />
+        <link rel="stylesheet" href="{% static 'wall/css/foundation.css' %}" />
+        <link rel="stylesheet" href="{% static 'wall/css/style.css' %}">
     </head>
     <body>
         <div id="page">
+            <a href="/logout" id="logging">Logout</a>
             <h1>Great Job Logging In!</h1>
             <h2>You've made it, {{logged_in_user.first_name}}!</h2>
-            <p>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Saepe
-                deleniti eius quisquam illum cupiditate minus, voluptatem libero
-                nemo id perspiciatis consequatur nostrum dolor incidunt
-                quibusdam aliquam voluptates ipsa animi rem.
-            </p>
             <ul>
                 <li>Users can post messages</li>
                 <li>Users can delete their own messages</li>
                 <li>Users can delete their own comments</li>
                 <li>Users can delete comments on their own messages</li>
             </ul>
-            <a href="/logout">Logout</a>
+            
             {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
@@ -42,44 +38,42 @@
                 {% endfor %}
             </ul>
             {% endif %}
+            <form id='newmessage' action="newmessage" method="POST">
+                {% csrf_token %}
+                <label>
+                    <textarea type="textarea" name="newmessagetext" rows="4" cols="50"></textarea>
+                </label>
+                <button type="submit">Post a Message</button>
+            </form>
+            <hr>
         </div>
-        <form id='newmessage' action="newmessage" method="POST">
-            {% csrf_token %}
-            <label>
-                <input type="textarea" name="newmessagetext" />
-            </label>
-            <button type="submit">Post a Message</button>
-        </form>
-        <hr>
         <div id="wall">
             {% for message in wallmessages %}
             <div class="wallmessage">
-                <h5>{{message.user_id.first_name}} {{message.user_id.last_name}}</h5>
-                <h4>{{message.created_at}}</h4>
+                <div class='messagehead'>
+                    <h5>{{message.user_id.first_name}} {{message.user_id.last_name}}</h5>
+                    <h5>{{message.created_at}}</h5>
+                </div>
                 <p>{{message.message}}</p>
                 {% if logged_in_user.id == message.user_id.id %}
                     <a href="deletemessage/{{message.id}}">Delete Message</a>
                 {% endif %}
-                {% for comment in comments %} 
-                    {% if comment.message_id.id == message.id %} 
-                        {% for user in users %}
-                        {% if user.id == comment.user_id.id %}
-                        <div class="wallcomment">
-                            <h4>{{user.first_name}}</h4>    
-                        {% endif %}
-                        {% endfor %}
-                        <h4>{{comment.updated_at}}</h4>
+                {% for comment in message.comments.all %} 
+                    <div class="wallcomment">
+                        <div class='messagehead'>
+                            <h5>{{comment.user_id.first_name}} {{comment.user_id.last_name}}</h5>    
+                            <h5>{{comment.updated_at}}</h5>
+                        </div>
                         <p>{{comment.comment}}</p>
                         {% if logged_in_user.id == comment.user_id.id or logged_in_user.id == message.user_id.id %}
                             <a href="deletecomment/{{comment.id}}">Delete Comment</a>
                         {% endif %}
-                        </div>
-                    {% endif %} 
+                    </div>
                 {% endfor %}
                 <form class = 'newcomment' action="/wall/newcomment/{{message.id}}" method="POST">
                     {% csrf_token %}
                     <label>
-                        <input type="textarea" name="newcomment" />
+                        <textarea type="textarea" name="newcomment" rows="4" cols="50"></textarea>
                     </label>
                     <button type="submit">Post a Comment</button>
                 </form>

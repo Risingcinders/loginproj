@@ -6,6 +6,7 @@
         <title>The Wall Dilemma</title>
         {% load static %}
         <link rel="stylesheet" href="{% static 'users/css/foundation.css' %}" />
+        <link rel="stylesheet" href="{% static 'users/css/style.css' %}">
     </head>
     <body>
         <div id="wrapper">
@@ -17,11 +18,25 @@
                         <label>
                             First Name:
                             <input type="text" name="first_name" />
+                            <span class="error">
+                            {% for message in messages %}
+                                {% if message.tags == 'first_name error' %}
+                                    {{message}}
+                                {% endif %}
+                            {% endfor %}
+                            </span>
                         </label>
                         <br />
                         <label>
                             Last Name:
                             <input type="text" name="last_name" />
+                            <span class="error">
+                            {% for message in messages %}
+                                {% if message.tags == 'last_name error' %}
+                                    {{message}}
+                                {% endif %}
+                            {% endfor %}
+                            </span>
                         </label>
                         <label>
                             Email:
@@ -44,42 +59,40 @@
                                 name="birthday"
                                 value="2020-07-04"
                             />
+                            <span class="error">
                             {% for message in messages %}
                                 {% if message.tags == 'date error' %}
                                     {{message}}
                                 {% endif %}
                             {% endfor %}
+                            </span>
                         </label>
                         <br />
                         <label>
                             Password:
                             <input type="password" name="password" />
+                            <span class="error">
+                            {% for message in messages %}
+                                {% if message.tags == 'password error' %}
+                                    {{message}}
+                                {% endif %}
+                            {% endfor %}
+                            </span>
                         </label>
                         <label>
                             Retype Password:
                             <input type="password" name="password2" />
+                            <span class="error">
+                            {% for message in messages %}
+                                {% if message.tags == 'passwordmatch error' %}
+                                    {{message}}
+                                {% endif %}
+                            {% endfor %}
+                            </span>
                         </label>
                         <br />
                         <button type="submit">Add</button>
                     </form>
-                    {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                <li
-                    {%
-                    if
-                    message.tags
-                    %}
-                    class="{{ message.tags }}"
-                    {%
-                    endif
-                    %}
-                >
-                    {{ message }}
-                </li>
-                {% endfor %}
-            </ul>
-            {% endif %}
                 </div>
                 <div>
                     <h2>Login</h2>
@@ -90,7 +103,10 @@
                             <input type="text" name="email" />
                             <span class="error">
                                 {% for message in messages %}
-                                    {% if message.tags == 'email error' %}
+                                    {% if message.tags == 'loginerr error' %}
+                                        {{message}}
+                                    {% endif %}
+                                    {% if message.tags == 'email2 error' %}
                                         {{message}}
                                     {% endif %}
                                 {% endfor %}
@@ -100,11 +116,16 @@
                         <label>
                             Password:
                             <input type="password" name="password" />
+                            <span class="error">
                             {% for message in messages %}
-                                    {% if message.tags == 'login error' %}
+                                    {% if message.tags == 'loginerr error' %}
+                                        {{message}}
+                                    {% endif %}
+                                    {% if message.tags == 'password2 error' %}
                                         {{message}}
                                     {% endif %}
                                 {% endfor %}
+                            </span>
                         </label>
                         <br />
                         <button type="submit">Login</button>

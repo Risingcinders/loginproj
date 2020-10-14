@@ -33,9 +33,9 @@ class UserManager(models.Manager):
         EMAIL_REGEX = re.compile(
             r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
         if not EMAIL_REGEX.match(postData['email']):
-            login_errors['email'] = "Invalid email address!"
+            login_errors['email2'] = "Invalid email address!"
         if (len(postData['password']) < 8):
-            login_errors['password'] = "Password must be at least 8 characters"
+            login_errors['password2'] = "Password must be at least 8 characters"
         return login_errors
 
 

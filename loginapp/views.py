@@ -59,7 +59,6 @@ def login(request):
             request.session['userid'] = request.POST['email']
             return redirect('/wall')
         else:
-            messages.error(request, "Invalid Email or Password.", extra_tags = loginerr)
+            messages.error(request, "Invalid Email or Password.", extra_tags = 'loginerr')
     return redirect('/')
 
-    # <link rel="stylesheet" href="{% static 'users/css/style.css' %}">
